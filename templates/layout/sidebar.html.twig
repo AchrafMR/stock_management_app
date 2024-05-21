@@ -1,0 +1,40 @@
+ <!-- Menu -->
+ <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+      <a href="" class="app-brand-link">
+        <span class="app-brand-text demo menu-text fw-bolder ms-2">stock market</span>
+      </a>
+      <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+      </a>
+    </div>
+
+    <div class="menu-inner-shadow"></div>
+
+    <ul class="menu-inner py-1">
+      <!-- Dashboard -->
+      <li class="menu-item active">
+        <a href="{{path('home')}}"  class=" {{app.current_route starts with 'home.' ? 'active' : ''}} menu-link">
+          <i class="menu-icon tf-icons bx bx-home-circle"></i>
+          <div data-i18n="Analytics">Dashboard</div>
+        </a>
+      </li>
+
+      <!-- Layouts -->
+      {% for model in models() %}
+      <li class="menu-item ">
+        <a href="{{ path(model.path)}}" class="menu-link menu-toggle {{app.current_route starts with 'app_models.' ? 'active' : ''}}">
+        <i class="{{ model.icon }}"></i> &nbsp;&nbsp;
+        <div data-i18n="Account Settings">{{model.name}}</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{{ model.path }}" class="menu-link">
+              <div data-i18n="Account">Account</div>
+            </a>
+          </li>
+        </ul>
+        </ul>
+    </li>
+    {% endfor %}
+  </aside>
