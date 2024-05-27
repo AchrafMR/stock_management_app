@@ -1,0 +1,6 @@
+
+<a href="{{ path('app_smodels_edit', {'id': smodel.id}) }}" class="btn btn-sm btn-primary">Edit</a>
+<form method="post" action="{{ path('app_smodels_delete', {'id': smodel.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');"  style="display:inline-block;">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ smodel.id) }}">
+    <button class="btn btn-sm btn-danger">Delete</button>
+</form>

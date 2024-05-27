@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create New Model{% endblock %}
+
+{% block body %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    {# <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Forms/</span> Vertical Layouts
+    </h4> #}
+    <div class="row">
+        <div class="col-xl">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Create new model</h5>
+                    <small class="text-muted float-end">    <a href="{{ path('models_index') }}" class="btn btn-secondary mt-3">Back to List</a>
+                    </small>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_label(form.name, 'Model Name', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Enter name'}}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.path, 'Path', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.path, {'attr': {'class': 'form-control', 'placeholder': 'Enter path'}}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.icon, 'Icon', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.icon, {'attr': {'class': 'form-control', 'placeholder': 'Enter icon'}}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.roles, 'Roles', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        {# <div class="mb-3">
+                            {{ form_label(form.users, 'Users', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.users, {'attr': {'class': 'form-control'}}) }}
+                        </div> #}
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -28,13 +28,18 @@
         <div data-i18n="Account Settings">{{model.name}}</div>
         </a>
         <ul class="menu-sub">
+          {% for smodel in model.smodels %}
           <li class="menu-item">
-            <a href="{{ model.path }}" class="menu-link">
-              <div data-i18n="Account">Account</div>
+            <a href="{{ path(smodel.path)}}" class="menu-link">
+              <div data-i18n="">
+               {{smodel.name}}
+              </div>
             </a>
           </li>
+          {% endfor %}
+
         </ul>
-        </ul>
-    </li>
-    {% endfor %}
+      </li>
+      {% endfor %}
+    </ul>
   </aside>

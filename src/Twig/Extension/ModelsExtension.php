@@ -6,7 +6,7 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 use App\Repository\ModelsRepository;
 use Twig\Extension\AbstractExtension;
-use App\Twig\Runtime\ModelsExtensionRuntime;
+// use App\Twig\Runtime\ModelsExtensionRuntime;
 
 class ModelsExtension extends AbstractExtension
 {

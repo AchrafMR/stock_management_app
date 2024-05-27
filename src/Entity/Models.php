@@ -33,9 +33,16 @@ class Models
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'models')]
     private Collection $users;
 
+    /**
+     * @var Collection<int, Smodels>
+     */
+    #[ORM\OneToMany(targetEntity: Smodels::class, mappedBy: 'models')]
+    private Collection $Smodels;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->Smodels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,7 +88,10 @@ class Models
 
     public function getRoles(): array
     {
-        return $this->roles;
+        $roles=$this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return $roles;
     }
 
     public function setRoles(array $roles): static
@@ -113,6 +123,36 @@ class Models
     {
         if ($this->users->removeElement($user)) {
             $user->removeModel($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Smodels>
+     */
+    public function getSmodels(): Collection
+    {
+        return $this->Smodels;
+    }
+
+    public function addSmodel(Smodels $smodel): static
+    {
+        if (!$this->Smodels->contains($smodel)) {
+            $this->Smodels->add($smodel);
+            $smodel->setModels($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSmodel(Smodels $smodel): static
+    {
+        if ($this->Smodels->removeElement($smodel)) {
+            // set the owning side to null (unless already changed)
+            if ($smodel->getModels() === $this) {
+                $smodel->setModels(null);
+            }
         }
 
         return $this;

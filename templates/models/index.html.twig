@@ -1,10 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ModelsController!{% endblock %}
+{% block title %}Model List{% endblock %}
 
 {% block body %}
-<table>
-    <th>hello</th>
-    <tr><td>test</td></tr>
-</table>
+<div class="card-body">
+    <div class="d-flex justify-content-between align-items-center">
+        <h4>List Models</h4>
+        <a href="{{ path('models_new') }}" class="btn btn-outline-primary">Add Models</a>
+    </div>
+    <br>
+    <div class="table-responsive text-nowrap">
+       <table id="modelDataTable" class="table table-hover">
+          <thead>
+             <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Path</th>
+                <th>Icon</th>
+                <th>Roles</th>
+                <th>Actions</th>
+             </tr>
+          </thead>
+       </table>
+    </div>
+</div>
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $('#modelDataTable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{{ path('models_data') }}",
+                    "type": "GET",
+                    "data": function(d) {
+                        d.draw = d.draw || 0;
+                        d.start = d.start || 0;
+                        d.length = d.length || 15;
+                    },
+                },
+                "order": [[0, 'asc']],
+                "columns": [
+                    { "data": "id", "name": "id" },
+                    { "data": "name", "name": "name" },
+                    { "data": "path", "name": "path" },
+                    { "data": "icon", "name": "icon" },
+                    { "data": "roles", "name": "roles"},
+                    { "data": "actions", "name": "actions", "orderable": false, "searchable": false }
+                ],
+                "autoWidth": false,
+                "bDestroy": true
+            });
+        });
+    </script>
+{% endblock %}
 {% endblock %}
