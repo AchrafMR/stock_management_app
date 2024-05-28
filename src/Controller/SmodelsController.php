@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Entity\Smodels;
 use App\Form\SmodelsType;
+use App\Repository\ModelsRepository;
 use App\Repository\SmodelsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,7 +42,7 @@ class SmodelsController extends AbstractController
     }
 
    #[Route('/data', name: 'app_smodels_data', methods: ['GET'])]
-//    #[Route('/data', name: 'app_smodels_data', methods: ['GET'])]
+
    public function getData(Request $request, EntityManagerInterface $em): JsonResponse
    {
         $draw = $request->query->get('draw');
@@ -55,17 +56,14 @@ class SmodelsController extends AbstractController
        $queryBuilder = $em->createQueryBuilder()
            ->select('s.id', 's.name', 's.path')
            ->from(Smodels::class, 's');
-   
        // Apply search query
        if (!empty($search)) {
            $queryBuilder->andWhere('s.name LIKE :search OR s.path LIKE :search')
                ->setParameter('search', "%$search%");
        }
-   
        if (!empty($orderColumn)) {
            $queryBuilder->orderBy("s.$orderColumn", $orderDir);
        }
-   
        $totalRecords = $em->createQueryBuilder()
            ->select('COUNT(s.id)')
            ->from(Smodels::class, 's')
@@ -82,11 +80,9 @@ class SmodelsController extends AbstractController
                'id' => $smodel['id'],
                'name' => $smodel['name'],
                'path' => $smodel['path'],
-              
                'actions' => $this->renderView('smodels/_actions.html.twig', ['smodel' => $smodel]),
            ];
        }
-   
        return new JsonResponse([
            'draw' =>$draw,
            'recordsTotal' => $totalRecords,
@@ -94,7 +90,6 @@ class SmodelsController extends AbstractController
            'data' => $formattedData,
        ]);
    }
-   
 
 
     #[Route('/{id}/edit', name: 'app_smodels_edit', methods: ['GET', 'POST'])]

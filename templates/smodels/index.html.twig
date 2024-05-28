@@ -1,47 +1,12 @@
-{# {% extends 'base.html.twig' %}
 
-{% block title %}Smodels index{% endblock %}
-
-{% block body %}
-    <h1>Smodels index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Path</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for smodel in smodels %}
-            <tr>
-                <td>{{ smodel.id }}</td>
-                <td>{{ smodel.name }}</td>
-                <td>{{ smodel.path }}</td>
-                <td>
-                    <a href="{{ path('app_smodels_edit', {'id': smodel.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_smodels_new') }}">Create new</a>
-{% endblock %} #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Smodels index{% endblock %}
+{% block title %}sub models index{% endblock %}
 
 {% block body %}
 <div class="card-body">
     <div class="d-flex justify-content-between align-items-center">
-        <h4>Smodels List</h4>
+        <h4>Sub models List</h4>
         <a href="{{ path('app_smodels_new') }}" class="btn btn-outline-primary">Create new</a>
     </div>
     <br>
@@ -52,7 +17,6 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Path</th>
-                {# <th>models name</th> #}
                 <th>Actions</th>
              </tr>
           </thead>
@@ -81,7 +45,6 @@
                     { "data": "id", "name": "id" },
                     { "data": "name", "name": "name"},
                     { "data": "path", "name": "path"},
-                   
                     { "data": "actions", "name": "actions", "orderable": false, "searchable": false }
                 ],
                 "autoWidth": false,
