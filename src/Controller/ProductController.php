@@ -31,6 +31,24 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Handle file upload
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('image')->getData();
+
+            // Check if an image has been uploaded
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+
+                // Move the file to the directory where images are stored
+                $imageFile->move(
+                    $this->getParameter('image_directory'),
+                    $newFilename
+                );
+
+                // Set the image property to store the file name
+                $product->setImage($newFilename);
+            }
+
             $entityManager->persist($product);
             $entityManager->flush();
 
@@ -42,6 +60,24 @@ class ProductController extends AbstractController
             'form' => $form,
         ]);
     }
+    // public function new(Request $request, EntityManagerInterface $entityManager): Response
+    // {
+    //     $product = new Product();
+    //     $form = $this->createForm(ProductType::class, $product);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->persist($product);
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->render('product/new.html.twig', [
+    //         'product' => $product,
+    //         'form' => $form,
+    //     ]);
+    // }
 
     #[Route('/products/data', name: 'app_product_data', methods: ['GET'])]
     public function getData(Request $request, EntityManagerInterface $em): JsonResponse
@@ -117,6 +153,24 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Handle file upload
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('image')->getData();
+
+            // Check if an image has been uploaded
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+
+                // Move the file to the directory where images are stored
+                $imageFile->move(
+                    $this->getParameter('image_directory'),
+                    $newFilename
+                );
+
+                // Set the image property to store the file name
+                $product->setImage($newFilename);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
@@ -127,6 +181,22 @@ class ProductController extends AbstractController
             'form' => $form,
         ]);
     }
+    // public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
+    // {
+    //     $form = $this->createForm(ProductType::class, $product);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->render('product/edit.html.twig', [
+    //         'product' => $product,
+    //         'form' => $form,
+    //     ]);
+    // }
 
     #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]
     public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response

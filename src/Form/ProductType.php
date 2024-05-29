@@ -2,12 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Category;
 use App\Entity\Product;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ProductType extends AbstractType
 {
@@ -30,9 +31,15 @@ class ProductType extends AbstractType
                 'label' => 'Description',
                 'attr' => ['class' => 'form-control', 'placeholder' => 'Enter description'],
             ])
-            ->add('image', null, [
-                'label' => 'Image URL',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Enter image URL'],
+            // ->add('image', null, [
+            //     'label' => 'Image URL',
+            //     'attr' => ['class' => 'form-control', 'placeholder' => 'Enter image URL'],
+            // ])
+            ->add('image', FileType::class, [
+                'label' => 'Product Image',
+                'mapped' => false, // Tells Symfony not to bind this field to any property
+                'required' => false, // Since it's an optional field
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,

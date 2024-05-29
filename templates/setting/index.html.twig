@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+<div class="card-body">
+    <div class="d-flex justify-content-between align-items-center">
+        <h4>Index Setting</h4>
+        <a href="{{ path('app_setting_new') }}" class="btn btn-outline-primary">Create new</a>
+    </div>
+    <br>
+    <div class="table-responsive text-nowrap">
+        <table id="userDataTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $('#userDataTable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{{ path('app_user_data') }}",  // Assuming you have a route to fetch user data
+                    "type": "GET",
+                    "data": function(d) {
+                        d.draw = d.draw || 0;
+                        d.start = d.start || 0;
+                        d.length = d.length || 15;
+                    },
+                },
+                "order": [[0, 'asc']],
+                "columns": [
+                    { "data": "id", "name": "id" },
+                    { "data": "username", "name": "username" },
+                    { "data": "email", "name": "email" },
+                    { "data": "roles", "name": "roles" },
+                    { "data": "actions", "name": "actions", "orderable": false, "searchable": false }
+                ],
+                "autoWidth": false,
+                "bDestroy": true
+            });
+        });
+    </script>
+{% endblock %}
+{% endblock %}

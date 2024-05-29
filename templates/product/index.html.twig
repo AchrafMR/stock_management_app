@@ -92,7 +92,14 @@
                     { "data": "stock", "name": "stock" },
                     { "data": "price", "name": "price" },
                     { "data": "description", "name": "description" },
-                    { "data": "image", "name": "image" },
+                    {
+                        "data": "image", 
+                        "name": "image",
+                        "render": function(data, type, row) {
+                            var imageUrl = "{{ asset('uploads/images') }}/" + data;
+                            return '<img src="' + imageUrl + '" alt="' + row.name + '" height="50" />';
+                        }
+                    },
                     { "data": "actions", "name": "actions", "orderable": false, "searchable": false }
                 ],
                 "autoWidth": false,
@@ -102,3 +109,4 @@
     </script>
 {% endblock %}
 {% endblock %}
+{# { "data": "image", "name":"image"}, #}
