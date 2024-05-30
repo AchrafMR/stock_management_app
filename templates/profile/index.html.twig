@@ -2,25 +2,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Profile</h1>
+    
+    <div class="card-body">
+    <h2>Welcome in Profile Page</h2>
 
-    <div class="card-deck">
+
+        {% for message in app.flashes('info_success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+        {% endfor %}
         <!-- Card 1: Update Info -->
         <div class="card">
+
             <div class="card-body">
-                <h5 class="card-title">Update Information</h5>
-                {% for message in app.flashes('info_success') %}
-                    <div class="alert alert-success">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+            <h5 class="card-title">Update Information</h5>
+
                 {{ form_start(userInfoForm) }}
                     {{ form_widget(userInfoForm) }}
+                    <br>
                     <button type="submit" class="btn btn-primary">Update Info</button>
                 {{ form_end(userInfoForm) }}
             </div>
         </div>
-
+        <br>
         <!-- Card 2: Update Password -->
         <div class="card">
             <div class="card-body">
@@ -37,20 +42,31 @@
                 {% endfor %}
                 {{ form_start(passwordUpdateForm) }}
                     {{ form_widget(passwordUpdateForm) }}
+                    <br>
                     <button type="submit" class="btn btn-primary">Update Password</button>
                 {{ form_end(passwordUpdateForm) }}
             </div>
         </div>
-
-        <!-- Card 3: Delete Account -->
+        <br>
         <div class="card">
+            <h5 class="card-header">Delete Account</h5>
             <div class="card-body">
-                <h5 class="card-title">Delete Account</h5>
-                <form method="post" action="{{ path('app_profile_delete') }}" onsubmit="return confirm('Are you sure you want to delete your account?');">
+                <div class="mb-3 col-12 mb-0">
+                    <div class="alert alert-warning">
+                        <h6 class="alert-heading fw-bold mb-1">Are you sure you want to delete your account?</h6>
+                        <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
+                    </div>
+                </div>
+                <form id="formAccountDeactivation" method="post" action="{{ path('app_profile_delete') }}" onsubmit="return confirm('Are you sure you want to delete your account?');">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete_account') }}">
-                    <button type="submit" class="btn btn-danger">Delete Account</button>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation" required>
+                        <label class="form-check-label" for="accountActivation">I confirm my account deactivation</label>
+                    </div>
+                    <button type="submit" class="btn btn-danger deactivate-account">Deactivate Account</button>
                 </form>
             </div>
         </div>
+
     </div>
 {% endblock %}

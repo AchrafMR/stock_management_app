@@ -43,6 +43,7 @@ class PasswordUpdateFormType extends AbstractType
         $builder
             ->add('currentPassword', PasswordType::class, [
                 'label' => 'Current Password',
+                'attr' => ['class' => 'form-control','placeholder' => 'Enter Current Password'],
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
@@ -52,6 +53,8 @@ class PasswordUpdateFormType extends AbstractType
             ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'New Password',
+                'attr' => ['class' => 'form-control','placeholder' => 'Enter New Password'],
+
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
@@ -66,6 +69,7 @@ class PasswordUpdateFormType extends AbstractType
             ])
             ->add('confirmPassword', PasswordType::class, [
                 'label' => 'Confirm New Password',
+                'attr' => ['class' => 'form-control','placeholder' => 'Enter Confirm New Password'],
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([

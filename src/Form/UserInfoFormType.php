@@ -15,9 +15,12 @@ class UserInfoFormType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Email',
+                'attr' => ['class' => 'form-control'],
+
             ])
             ->add('username', TextType::class, [
                 'label' => 'Username',
+                'attr' => ['class' => 'form-control'],
             ]);
     }
 
