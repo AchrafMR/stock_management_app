@@ -1,7 +1,7 @@
  <!-- Menu -->
  <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-      <a href="" class="app-brand-link">
+      <a href="{{path('home')}}" class="app-brand-link">
         <span class="app-brand-text demo menu-text fw-bolder ms-2">stock market</span>
       </a>
       <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -10,11 +10,42 @@
     </div>
 
     <div class="menu-inner-shadow"></div>
-
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
+      <li class="menu-item {{ app.request.attributes.get('_route') == 'home' ? 'active' : '' }}">
+          <a href="{{ path('home') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home-circle"></i>
+              <div data-i18n="Analytics">Dashboard</div>
+          </a>
+      </li>
+
+      <!-- Layouts -->
+      {% for model in models() %}
+      {% set model_active = app.request.attributes.get('_route') starts with model.path %}
+      
+      <li class="menu-item {{ model_active ? 'active' : '' }}">
+          <a href="" class="menu-link menu-toggle">
+              <i class="{{ model.icon }}"></i> &nbsp;&nbsp;
+              <div data-i18n="Account Settings">{{ model.name }}</div>
+          </a>
+          {% for smodel in model.smodels %}
+            <ul class="menu-sub">
+              <li class="menu-item {{ app.request.attributes.get('_route') == smodel.path ? 'active' : '' }}">
+                  <a href="{{ path(smodel.path) }}" class="menu-link">
+                      <div data-i18n="">{{ smodel.name }}</div>
+                  </a>
+              </li>
+            </ul>
+            {% endfor %}
+      </li>
+
+      {% endfor %}
+      
+    </ul>
+    {# <ul class="menu-inner py-1">
+      <!-- Dashboard -->
       <li class="menu-item active">
-        <a href="{{path('home')}}"  class="menu-link">
+        <a href="{{path('home')}}"  class="menu-link {{app.current_route starts with 'home.' ? 'active' : ''}}">
           <i class="menu-icon tf-icons bx bx-home-circle"></i>
           <div data-i18n="Analytics">Dashboard</div>
         </a>
@@ -22,16 +53,16 @@
 
       <!-- Layouts -->
       {% for model in models() %}
-      <li class="menu-item ">
-        <a href="{{ path(model.path)}}" class="menu-link menu-toggle {{app.current_route starts with 'app_models.' ? 'active' : ''}}">
+      <li class="menu-item  active">
+        <a href="{{ path(model.path)}}" class="menu-link menu-toggle {{app.current_route starts with '{{ model.path }}.' ? 'active' : ''}}">
         <i class="{{ model.icon }}"></i> &nbsp;&nbsp;
         <div data-i18n="Account Settings">{{model.name}}</div>
         </a>
-        <ul class="menu-sub">
+        <ul class="menu-sub active ">
           {% for smodel in model.smodels %}
-          <li class="menu-item">
+          <li class="menu-item active">
             <a href="{{ path(smodel.path)}}" class="menu-link">
-              <div data-i18n="">
+              <div data-i18n="" >
                {{smodel.name}}
               </div>
             </a>
@@ -41,5 +72,5 @@
         </ul>
       </li>
       {% endfor %}
-    </ul>
+    </ul> #}
   </aside>

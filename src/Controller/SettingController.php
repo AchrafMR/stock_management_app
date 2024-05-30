@@ -18,8 +18,11 @@ class SettingController extends AbstractController
     #[Route('/', name: 'app_setting_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
+        // $currentUser = $this->getUser();
+        // $roles = $currentUser ? $currentUser->getRoles() : [];
         return $this->render('setting/index.html.twig', [
             'users' => $userRepository->findAll(),
+            // 'roles' => $roles
         ]);
     }
 
@@ -89,7 +92,7 @@ class SettingController extends AbstractController
                 'roles' => $role,
                 // 'roles' => json_encode($user['roles']),
                 'username' => $user['username'],
-                'actions' => $this->renderView('setting/_actions.html.twig', ['user' => $user]),
+                'actions' => in_array('ROLE_ADMIN',$user['roles'])? '': $this->renderView('setting/_actions.html.twig', ['user' => $user ,]),
             ];
         }
 

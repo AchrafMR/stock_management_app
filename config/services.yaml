@@ -19,7 +19,7 @@ services:
         arguments:
             $modelsRepository: '@App\Repository\ModelsRepository'
         tags:
-            - { name: twig.extension }
+            - { name: twig.extension}
     App\:
         resource: '../src/'
         exclude:
