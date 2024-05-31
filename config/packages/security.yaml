@@ -39,7 +39,7 @@ security:
     access_control:
         # path:/dashboard, roles: [ROLE_ADMIN]
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/, roles: PUBLIC_ACCESS }
+        - { path: ^/user, roles: ROLE_USER}
 
 when@test:
     security:

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Models;
 use App\Form\ModelsType;
-use App\Repository\ModelsRepository;
+// use App\Repository\ModelsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,12 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/models')]
+#[Route('/admin/models')]
 class ModelsController extends AbstractController
 {
     #[Route('/', name: 'models_index')]
     public function index(): Response
     {
+       
         return $this->render('models/index.html.twig');
     }
 

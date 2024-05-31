@@ -41,7 +41,9 @@
             {% if app.user %}
                 {% set current_route = app.request.attributes.get('_route') %}
                 {% if current_route != 'app_login' and current_route !='app_register' %}
+                {% if 'ROLE_ADMIN' in app.user.roles %}
                 {% include 'layout/sidebar.html.twig' %}
+                {% endif %}
                 <div class="layout-page">
                     {% include 'layout/navbar.html.twig' %}
                 {% endif %}

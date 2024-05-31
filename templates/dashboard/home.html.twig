@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<style>
+  .container-xxl {
+    padding: 20px;
+  }
+  .welcome-section {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .about-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  .about-section h2 {
+    margin-bottom: 20px;
+  }
+  .about-section p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+</style>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="welcome-section">
+    <h1>Welcome to Our App!</h1>
+    <p>This is your go-to platform for managing products and categories efficiently.</p>
+  </div>
+
+  <div class="about-section">
+    <h2>About Us</h2>
+    <p>Our app is designed to provide a seamless experience for managing your product inventory and categories.</p>
+    <p>With a user-friendly interface and powerful features, you can easily keep track of your products, categorize them, and ensure everything is organized.</p>
+    <p>We strive to make your experience as smooth and efficient as possible, helping you focus on growing your business while we take care of the details.</p>
+  </div>
+</div>
+{% endblock %}

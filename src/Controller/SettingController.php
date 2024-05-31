@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/setting')]
+#[Route('/admin/setting')]
 class SettingController extends AbstractController
 {
     #[Route('/', name: 'app_setting_index', methods: ['GET'])]

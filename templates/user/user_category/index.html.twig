@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+<style>
+  .category-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .category-card {
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  .category-card:hover {
+    transform: scale(1.05);
+  }
+  .category-card h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  .category-card p {
+    font-size: 1rem;
+    color: #666;
+  }
+  .category-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  .category-card a:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<div class="category-container">
+    {% for category in categorys %}
+      <div class="category-card">
+        <h1>{{ category.name }}</h1>
+        <p>{{ category.description }}</p>
+        <a href="{{ path('productsByCategory', { 'id': category.id }) }}">View Products</a>
+      </div>
+    {% endfor %}
+</div>
+{% endblock %}

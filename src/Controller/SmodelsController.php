@@ -3,7 +3,6 @@ namespace App\Controller;
 
 use App\Entity\Smodels;
 use App\Form\SmodelsType;
-use App\Repository\ModelsRepository;
 use App\Repository\SmodelsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/smodels')]
+#[Route('/admin/smodels')]
 class SmodelsController extends AbstractController
 {
     #[Route('/', name: 'app_smodels_index', methods: ['GET'])]

@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/product')]
+#[Route('/admin/product')]
 class ProductController extends AbstractController
 {
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
@@ -125,6 +125,7 @@ class ProductController extends AbstractController
                 'stock' => $product['stock'],
                 'price' => $product['price'],
                 'description' => $product['description'],
+                
                 'image' => $product['image'],
                 'actions' => $this->renderView('product/_actions.html.twig', ['product' => $product]),
             ];
