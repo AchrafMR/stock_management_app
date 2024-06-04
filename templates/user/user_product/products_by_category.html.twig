@@ -21,6 +21,7 @@
   }
   .product-card:hover {
     transform: scale(1.05);
+    border: 3px solid #696cff;
   }
   .product-card img {
     width: 100%;
@@ -44,7 +45,7 @@
     margin: 5px 0;
   }
 </style>
-
+<div class="container-xxl flex-grow-1 container-p-y">
 <h1>Products in {{ category.name }}</h1>
 
 <div class="product-card-container">
@@ -62,5 +63,6 @@
       </div>
     </div>
   {% endfor %}
+</div>
 </div>
 {% endblock %}

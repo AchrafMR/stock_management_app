@@ -18,7 +18,6 @@ class ModelsController extends AbstractController
     #[Route('/', name: 'models_index')]
     public function index(): Response
     {
-       
         return $this->render('models/index.html.twig');
     }
 

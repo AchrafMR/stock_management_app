@@ -4,6 +4,27 @@
 
 {% block body %}
 <style>
+  .product-filter-navbar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .product-filter-navbar a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #696cff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+  }
+  .product-filter-navbar a:hover {
+    text-decoration: underline;
+    color: #4a47a3;
+  }
+  .product-filter-navbar a.active {
+    text-decoration: underline;
+    color: #4a47a3;
+  }
   .product-card-container {
     display: flex;
     flex-wrap: wrap;
@@ -21,6 +42,7 @@
   }
   .product-card:hover {
     transform: scale(1.05);
+    border: 3px solid #696cff;
   }
   .product-card img {
     width: 100%;
@@ -37,30 +59,68 @@
   }
   .product-card .card-text {
     font-size: 1rem;
-    color: #666;
+    color: #b4a3a3;
   }
   .product-card .card-text h1 {
     font-size: 1rem;
     margin: 5px 0;
   }
   .carousel-caption {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(237, 233, 233, 0.5);
     padding: 10px;
     border-radius: 5px;
   }
   .carousel {
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
   }
   .carousel img {
-    height: 350px; /* Adjust height for smaller carousel */
+    height: 450px;
+    
     object-fit: cover;
+  }
+  .add-to-cart-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #7e7d9d;
+
+    color: white;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 10px;
+  }
+  .add-to-cart-btn:hover {
+    background-color: #696cff;
+
+  }
+  #message-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #56c972;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    z-index: 9999;
+    display: none; /* Initially hide the container */
+  }
+  
+  #message-container.show {
+    display: block; /* Show the container when a message is added */
   }
 </style>
 
 <div class="container-xxl flex-grow-1 container-p-y">
+  <!-- Hidden alert message container -->
+   <div id="message-container"></div>
+
   <div class="col-md">
-    <h5 class="my-4 text-center">Featured Products</h5>
+    <h1 class="my-4 text-center">Featured Products</h1>
 
     <div id="carouselExample-cf" class="carousel carousel-dark slide carousel-fade" data-bs-ride="carousel">
       <ol class="carousel-indicators">
@@ -89,7 +149,15 @@
       </a>
     </div>
   </div>
-
+<br><br>
+  <!-- Mini Navbar for Category Filter -->
+  <div class="product-filter-navbar">
+    <a href="{{ path('app_user_product') }}" class="{{ current_category is null ? 'active' : '' }}">All</a>
+    {% for category in categories %}
+      <a href="{{ path('app_user_product', {'category': category.id}) }}" class="{{ current_category == category.id ? 'active' : '' }}">{{ category.name }}</a>
+    {% endfor %}
+  </div>
+<br>
   <div class="product-card-container">
     {% for product in products %}
       <div class="product-card">
@@ -97,13 +165,40 @@
         <div class="card-body">
           <h5 class="card-title">{{ product.name }}</h5>
           <div class="card-text">
-             <h1>Description: {{ product.description }}</h1>
-             <h1>Price: {{ product.price }} $</h1>
-             <h1>Category: {{ product.category.name }}</h1>
+            <h1>Description: {{ product.description }}</h1>
+            <h1>Price: {{ product.price }} $</h1>
+            <h1>Category: {{ product.category.name }}</h1>
           </div>
+          <form action="{{ path('app_add_to_cart', {'id': product.id}) }}" method="post">
+            <button type="submit" class="add-to-cart-btn">ADD TO CART</button>
+          </form>
         </div>
       </div>
     {% endfor %}
   </div>
 </div>
+<script>
+  // Function to show the alert message
+  document.addEventListener("DOMContentLoaded", function() {
+    var addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+  
+    addToCartButtons.forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        var messageContainer = document.getElementById('message-container');
+        var messageElement = document.createElement('div');
+        messageElement.textContent = 'Product added successfully!';
+        messageContainer.appendChild(messageElement);
+        // Show the message container
+        messageContainer.classList.add('show');
+        // Automatically remove the message after 3 seconds
+        setTimeout(function() {
+          messageContainer.removeChild(messageElement);
+          // Hide the message container
+          messageContainer.classList.remove('show');
+        }, 3000);
+      });
+    });
+  });
+  
+      </script>
 {% endblock %}
