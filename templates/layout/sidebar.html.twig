@@ -40,28 +40,6 @@
         </li>
       {% endif %}
     {% endfor %}
-
-
-      {# {% for model in models() %}
-      {% if app.user and 'ROLE_ADMIN' in app.user.roles or model.roles is empty or model.roles|length == 0 %}
-        {% set model_active = app.request.attributes.get('_route') starts with model.path %}
-        <li class="menu-item {{ model_active ? 'active' : '' }}">
-            <a href="" class="menu-link menu-toggle">
-                <i class="{{ model.icon }}"></i> &nbsp;&nbsp;
-                <div data-i18n="Account Settings">{{ model.name }}</div>
-            </a>
-            {% for smodel in model.smodels %}
-                <ul class="menu-sub">
-                    <li class="menu-item {{ app.request.attributes.get('_route') == smodel.path ? 'active' : '' }}">
-                        <a href="{{ path(smodel.path) }}" class="menu-link">
-                            <div data-i18n="">{{ smodel.name }}</div>
-                        </a>
-                    </li>
-                </ul>
-            {% endfor %}
-        </li>
-        {% endif %}
-      {% endfor %} #}
     </ul>
     {# <ul class="menu-inner py-1">
       <!-- Dashboard -->

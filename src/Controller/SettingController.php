@@ -122,6 +122,8 @@ class SettingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'User has been updated successfully!');
+
             return $this->redirectToRoute('app_setting_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -137,6 +139,8 @@ class SettingController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
+            $this->addFlash('success', 'User has been Deleted successfully!');
+
         }
 
         return $this->redirectToRoute('app_setting_index', [], Response::HTTP_SEE_OTHER);

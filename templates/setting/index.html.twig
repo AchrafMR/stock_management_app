@@ -4,6 +4,11 @@
 
 {% block body %}
 <div class="card-body">
+    {% for flashMessage in app.flashes('success') %}
+    <div class="alert alert-success" role="alert">
+        {{ flashMessage }}
+    </div>
+    {% endfor %}
     <div class="d-flex justify-content-between align-items-center">
         <h4>Index Settings users</h4>
         {# <a href="{{ path('app_setting_new') }}" class="btn btn-outline-primary">Create new</a> #}

@@ -1,3 +1,4 @@
+{# templates/user/user_product/cart.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}My Cart{% endblock %}
@@ -24,7 +25,7 @@
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
             <th scope="col">Total</th>
-            <th scope="col">Actions</th> {# New column for actions #}
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -45,12 +46,13 @@
             {% set totalPrice = totalPrice + (product.price * product.quantity) %}
           {% endfor %}
           <tr>
-            <td colspan="4" class="text-end "><strong style="font-size: 22px;">Total:</strong></td>
+            <td colspan="4" class="text-end"><strong style="font-size: 22px;">Total:</strong></td>
             <td colspan="2" style="font-size: 18px;">{{ totalPrice }} $</td>
           </tr>
         </tbody>
       </table><br>
       <a href="{{ path('app_user_product') }}" class="btn btn-primary">Continue Shopping</a>
+      <a href="{{ path('app_order_form') }}" class="btn btn-success">Passer Order</a>
     {% endif %}
   </div>
 </div>

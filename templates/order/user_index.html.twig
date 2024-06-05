@@ -1,0 +1,45 @@
+{# templates/user/orders/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block body %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="col-md">
+        <h1 class="my-4 text-center">My Orders</h1>
+        {% for flashMessage in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ flashMessage }}
+        </div>
+        {% endfor %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.adress }}</td>
+                        <td>{{ order.phone }}</td>
+                        <td>{{ order.date|date('Y-m-d H:i:s') }}</td>
+                        <td>
+                            {% set total = 0 %}
+                            {% for item in order.orderitem %}
+                                {% set total = total + item.total %}
+                            {% endfor %}
+                            {{ total }} $
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

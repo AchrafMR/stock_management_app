@@ -58,6 +58,7 @@
       {% if model.roles == ['ROLE_USER'] and 'ROLE_USER' in app.user.roles %}
         <li class="menu-item active" style="margin-right: 15px;">
           <a href="{{ path(model.path) }}" class="menu-link {{ app.request.attributes.get('_route') starts with model.path ? 'active' : '' }}" style="color: #696cff;">
+            <i class="{{ model.icon }}"></i> &nbsp;&nbsp;
             <div data-i18n="Account Settings">{{ model.name }}</div>
           </a>
         </li>

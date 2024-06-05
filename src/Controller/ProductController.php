@@ -51,6 +51,8 @@ class ProductController extends AbstractController
 
             $entityManager->persist($product);
             $entityManager->flush();
+            $this->addFlash('success', 'Your Product has been Added successfully!');
+
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -125,7 +127,6 @@ class ProductController extends AbstractController
                 'stock' => $product['stock'],
                 'price' => $product['price'],
                 'description' => $product['description'],
-                
                 'image' => $product['image'],
                 'actions' => $this->renderView('product/_actions.html.twig', ['product' => $product]),
             ];
@@ -173,6 +174,8 @@ class ProductController extends AbstractController
             }
 
             $entityManager->flush();
+            $this->addFlash('success', 'Your Product has been updated successfully!');
+
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -205,6 +208,7 @@ class ProductController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($product);
             $entityManager->flush();
+            $this->addFlash('success', 'Your Product has been Deleted successfully!');
         }
 
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);

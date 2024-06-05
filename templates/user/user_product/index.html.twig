@@ -170,12 +170,13 @@
             <h1>Category: {{ product.category.name }}</h1>
           </div>
           <form action="{{ path('app_add_to_cart', {'id': product.id}) }}" method="post">
-            <button type="submit" class="add-to-cart-btn">ADD TO CART</button>
+            <button type="submit" class="add-to-cart-btn">Add To Cart &nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
           </form>
         </div>
       </div>
     {% endfor %}
   </div>
+  
 </div>
 <script>
   // Function to show the alert message
