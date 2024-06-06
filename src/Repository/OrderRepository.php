@@ -16,6 +16,20 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
+    public function findSalesPerMonth(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            SELECT MONTH(o.order_date) as month, COUNT(o.id) as sales
+            FROM `order` o
+            GROUP BY month
+            ORDER BY month
+        ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+        return $resultSet->fetchAllAssociative();
+    }
     //    /**
     //     * @return Order[] Returns an array of Order objects
     //     */

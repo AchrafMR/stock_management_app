@@ -4,7 +4,7 @@
 {% block title %}My Orders{% endblock %}
 
 {% block body %}
-<div class="container-xxl flex-grow-1 container-p-y">
+<div class="card-body">
     <div class="col-md">
         <h1 class="my-4 text-center">My Orders</h1>
         {% for flashMessage in app.flashes('success') %}
@@ -12,6 +12,7 @@
             {{ flashMessage }}
         </div>
         {% endfor %}
+        <div class="table-responsive text-nowrap">
         <table class="table">
             <thead>
                 <tr>
@@ -20,6 +21,7 @@
                     <th scope="col">Phone</th>
                     <th scope="col">Date</th>
                     <th scope="col">Total</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,13 +35,18 @@
                             {% set total = 0 %}
                             {% for item in order.orderitem %}
                                 {% set total = total + item.total %}
-                            {% endfor %}
+                           {% endfor %}
                             {{ total }} $
+                        </td>
+                        <td>
+                            <a href="{{ path('user_order_pdf', {'id': order.id}) }}" class="btn btn-primary"> PDF  <i class="fa-solid fa-file-pdf"></i></a>
+                            <a href="{{ path('user_order_receipt', {'id': order.id}) }}" class="btn btn-secondary"> Receipt <i class="fa-solid fa-receipt"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+    </div>
     </div>
 </div>
 {% endblock %}

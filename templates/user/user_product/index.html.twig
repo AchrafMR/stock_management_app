@@ -157,6 +157,8 @@
       <a href="{{ path('app_user_product', {'category': category.id}) }}" class="{{ current_category == category.id ? 'active' : '' }}">{{ category.name }}</a>
     {% endfor %}
   </div>
+
+
 <br>
   <div class="product-card-container">
     {% for product in products %}

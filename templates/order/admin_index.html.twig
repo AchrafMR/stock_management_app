@@ -1,4 +1,63 @@
-{# templates/admin/orders/index.html.twig #}
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Admin Orders{% endblock %}
+
+{% block body %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="col-md">
+        <h1 class="my-4 text-center">All Orders</h1>
+        <div class="table-responsive text-nowrap">
+           <table id="ordersDataTable" class="table table-hover">
+              <thead>
+                 <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Date</th>
+                   <th>total</th>
+                 </tr>
+              </thead>
+           </table>
+        </div>
+    </div>
+</div>
+{% endblock %} #}
+{# 
+{% block javascript %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function() {
+            $('#ordersDataTable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{{ path('app_orders_data') }}",
+                    "type": "GET",
+                    "data": function(d) {
+                        d.draw = d.draw || 0;
+                        d.start = d.start || 0;
+                        d.length = d.length || 10;
+                    }
+                },
+                "order": [[0, 'asc']],
+                "columns": [
+                    { "data": "id", "name": "id" },
+                    { "data": "username", "name": "username"},
+                    { "data": "email", "name": "email"},
+                    { "data": "address", "name": "address"},
+                    { "data": "phone", "name": "phone"},
+                    { "data": "date", "name": "date"},
+                    { "data": "total", "name": "total" }
+                ],
+                "autoWidth": false,
+                "bDestroy": true
+            });
+        });
+    </script>
+{% endblock %} #} 
 {% extends 'base.html.twig' %}
 
 {% block title %}Admin Orders{% endblock %}

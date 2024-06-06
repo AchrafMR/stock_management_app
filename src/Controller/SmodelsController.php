@@ -3,7 +3,6 @@ namespace App\Controller;
 
 use App\Entity\Smodels;
 use App\Form\SmodelsType;
-use App\Repository\SmodelsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +29,7 @@ class SmodelsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($smodel);
             $entityManager->flush();
+            $this->addFlash('success', 'Sub model has been added successfully!');
 
             return $this->redirectToRoute('app_smodels_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -68,10 +68,10 @@ class SmodelsController extends AbstractController
            ->from(Smodels::class, 's')
            ->getQuery()
            ->getSingleScalarResult();
-   
+
        $queryBuilder->setFirstResult($start)
            ->setMaxResults($length);
-   
+
        $results = $queryBuilder->getQuery()->getResult();
        $formattedData = [];
        foreach ($results as $smodel) {
@@ -99,6 +99,7 @@ class SmodelsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('success', 'Sub model has been updated successfully!');
 
             return $this->redirectToRoute('app_smodels_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -115,81 +116,11 @@ class SmodelsController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$smodel->getId(), $request->request->get('_token'))) {
             $entityManager->remove($smodel);
             $entityManager->flush();
+            $this->addFlash('success', 'Sub model has been deleted successfully!');
+
         }
 
         return $this->redirectToRoute('app_smodels_index', [], Response::HTTP_SEE_OTHER);
     }
 }
 
-// namespace App\Controller;
-
-// use App\Entity\Smodels;
-// use App\Form\SmodelsType;
-// use App\Repository\SmodelsRepository;
-// use Doctrine\ORM\EntityManagerInterface;
-// use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-// use Symfony\Component\HttpFoundation\Request;
-// use Symfony\Component\HttpFoundation\Response;
-// use Symfony\Component\Routing\Attribute\Route;
-
-// #[Route('/smodels')]
-// class SmodelsController extends AbstractController
-// {
-//     #[Route('/', name: 'app_smodels_index', methods: ['GET'])]
-//     public function index(SmodelsRepository $smodelsRepository): Response
-//     {
-//         return $this->render('smodels/index.html.twig', [
-//             'smodels' => $smodelsRepository->findAll(),
-//         ]);
-//     }
-
-//     #[Route('/new', name: 'app_smodels_new', methods: ['GET', 'POST'])]
-//     public function new(Request $request, EntityManagerInterface $entityManager): Response
-//     {
-//         $smodel = new Smodels();
-//         $form = $this->createForm(SmodelsType::class, $smodel);
-//         $form->handleRequest($request);
-
-//         if ($form->isSubmitted() && $form->isValid()) {
-//             $entityManager->persist($smodel);
-//             $entityManager->flush();
-
-//             return $this->redirectToRoute('app_smodels_index', [], Response::HTTP_SEE_OTHER);
-//         }
-
-//         return $this->render('smodels/new.html.twig', [
-//             'smodel' => $smodel,
-//             'form' => $form,
-//         ]);
-//     }
-
-
-//     #[Route('/{id}/edit', name: 'app_smodels_edit', methods: ['GET', 'POST'])]
-//     public function edit(Request $request, Smodels $smodel, EntityManagerInterface $entityManager): Response
-//     {
-//         $form = $this->createForm(SmodelsType::class, $smodel);
-//         $form->handleRequest($request);
-
-//         if ($form->isSubmitted() && $form->isValid()) {
-//             $entityManager->flush();
-
-//             return $this->redirectToRoute('app_smodels_index', [], Response::HTTP_SEE_OTHER);
-//         }
-
-//         return $this->render('smodels/edit.html.twig', [
-//             'smodel' => $smodel,
-//             'form' => $form,
-//         ]);
-//     }
-
-//     #[Route('/{id}', name: 'app_smodels_delete', methods: ['POST'])]
-//     public function delete(Request $request, Smodels $smodel, EntityManagerInterface $entityManager): Response
-//     {
-//         if ($this->isCsrfTokenValid('delete'.$smodel->getId(), $request->getPayload()->get('_token'))) {
-//             $entityManager->remove($smodel);
-//             $entityManager->flush();
-//         }
-
-//         return $this->redirectToRoute('app_smodels_index', [], Response::HTTP_SEE_OTHER);
-//     }
-// }

@@ -1,6 +1,27 @@
 <!-- Navbar -->
+<!-- CSS for Hover and Active States -->
+<style>
+  .navbar-nav-center {
+    flex-grow: 1;
+  }
+
+  .menu-link {
+    color: #666667; /* Match the logo color */
+    font-size: 18px; /* Font size for the items */
+    padding: 5px;
+  }
+
+  .menu-link:hover {
+    color: #696cff; /* Match the logo color on hover */
+    text-decoration: none; /* Remove underline on hover */
+  }
+
+  .menu-link.active {
+    font-weight: bold; /* Highlight the active link */
+  }
+</style>
 <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
-  {% if 'ROLE_ADMIN' not in app.user.roles %}
+  {% if 'ROLE_ADMIN'  in app.user.roles %}
   <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
     <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
       <i class="bx bx-menu bx-sm"></i>
@@ -11,7 +32,7 @@
   {% if 'ROLE_ADMIN' not in app.user.roles %}
   <!-- Logo -->
   <div class="app-brand justify-content-center">
-    <a href="#" class="app-brand-link gap-2">
+    <a href="{{path('home')}}" class="app-brand-link gap-2">
       <span class="app-brand-logo demo">
         <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <defs>
@@ -50,9 +71,9 @@
     </a>
   </div>
   <!-- /Logo -->
-
-  <!-- Centered Navbar Items -->
-  <div class="d-flex justify-content-center w-100">
+  
+  <!-- centent Navbar  -->
+  <div class="navbar-nav-center d-flex justify-content-center w-100">
     <div class="navbar-nav d-flex align-items-center">
       {% for model in models() %}
       {% if model.roles == ['ROLE_USER'] and 'ROLE_USER' in app.user.roles %}
@@ -122,21 +143,4 @@
 </nav>
 <!-- / Navbar -->
 
-<!-- CSS for Hover and Active States -->
-<style>
-  .menu-link {
-    color: #696cff; /* Match the logo color */
-    font-size: 18px; /* Font size for the items */
-    padding:5px;
-   
-  }
 
-  .menu-link:hover {
-    color: #696cff; /* Match the logo color on hover */
-    text-decoration: none; /* Remove underline on hover */
-  }
-
-  .menu-link.active {
-    font-weight: bold; /* Highlight the active link */
-  }
-</style>

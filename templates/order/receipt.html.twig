@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Receipt #{{ order.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #ffffff;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+   
+            border-radius: 5px;
+        }
+        .header, .footer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .details {
+            margin-bottom: 20px;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+        .item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .total {
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Receipt #{{ order.id }}</h1>
+            <p>Date: {{ order.date|date('Y-m-d H:i:s') }}</p>
+        </div>
+        <div class="details">
+            <p><strong>Customer Name:</strong> {{ order.user.username }}</p>
+            <p><strong>Email:</strong> {{ order.user.email }}</p>
+            <p><strong>Shipping Address:</strong> {{ order.adress }}</p>
+            <p><strong>Phone:</strong> {{ order.phone }}</p>
+        </div>
+        <div class="items">
+            <h2>Order Details</h2>
+            {% for item in order.orderitem %}
+                <div class="item">
+                    <span>{{ item.product.name }} (x{{ item.quantity }})</span>
+                    <span>{{ item.total }} $</span>
+                </div>
+            {% endfor %}
+        </div>
+        <p class="total"><strong>Grand Total:</strong> {{ total }} $</p>
+        <div class="footer">
+            <p>Thank you for your purchase!</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -31,6 +31,8 @@ class ModelsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($model);
             $entityManager->flush();
+            $this->addFlash('success', 'Model has been added successfully!');
+
 
             return $this->redirectToRoute('models_index');
         }
@@ -105,6 +107,8 @@ class ModelsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('success', 'Model has been updated successfully!');
+
 
             return $this->redirectToRoute('models_index');
         }
@@ -120,6 +124,8 @@ class ModelsController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $model->getId(), $request->request->get('_token'))) {
             $entityManager->remove($model);
             $entityManager->flush();
+            $this->addFlash('success', 'Model has been deleted successfully!');
+
         }
 
         return $this->redirectToRoute('models_index');
