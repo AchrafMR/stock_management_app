@@ -4,9 +4,6 @@
 
 {% block body %}
 <div class="container-xxl flex-grow-1 container-p-y">
-    {# <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">Forms/</span> Vertical Layouts
-    </h4> #}
     <div class="row">
         <div class="col-xl">
             <div class="card mb-4">
@@ -33,10 +30,6 @@
                             {{ form_label(form.roles, 'Roles', {'label_attr': {'class': 'form-label'}}) }}
                             {{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }}
                         </div>
-                        {# <div class="mb-3">
-                            {{ form_label(form.users, 'Users', {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.users, {'attr': {'class': 'form-control'}}) }}
-                        </div> #}
                         <button type="submit" class="btn btn-primary">Create</button>
                     {{ form_end(form) }}
                 </div>

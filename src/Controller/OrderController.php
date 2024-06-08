@@ -4,26 +4,30 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Entity\OrderItem;
+use App\Service\PdfService;
+use App\Service\RpdfService;
+use Psr\Log\LoggerInterface;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+// use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-// use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use App\Service\PdfService;
-
 
 class OrderController extends AbstractController
 {
     private $pdfService;
+    private $rpdfService;
 
-    public function __construct(PdfService $pdfService)
+    public function __construct(PdfService $pdfService,RpdfService $rpdfService)
     {
         $this->pdfService = $pdfService;
+        $this->rpdfService = $rpdfService;
     }
 
     #[Route('/user/order', name: 'app_order_form')]
@@ -67,18 +71,19 @@ class OrderController extends AbstractController
             $session->remove('cart');
             $this->addFlash('success', 'Your order has been placed successfully.');
 
-            return $this->redirectToRoute('payement');
+            return $this->redirectToRoute('payment', ['id' => $order->getId()], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('order/order_form.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/user/orders/payement', name: 'payement')]
-    public function payement(): Response
+    #[Route('/user/order/{id}', name: 'payment')]
+    public function payment(Order $order): Response
     {
-        return $this->render('order/payement.html.twig');
+        return $this->render('order/payment.html.twig', [
+            'order' => $order,
+        ]);
     }
 
     #[Route('/user/orders', name: 'user_order_index')]
@@ -101,6 +106,74 @@ class OrderController extends AbstractController
             'orders' => $orders,
         ]);
     }
+    #[Route('/admin/orders/data', name: 'orders_data')]
+    public function getOrderData(Request $request, OrderRepository $orderRepository, LoggerInterface $logger): JsonResponse
+    {
+        $draw = intval($request->get('draw'));
+        $start = intval($request->get('start'));
+        $length = intval($request->get('length'));
+        $search = $request->get('search')['value'] ?? '';
+        $orderColumnIndex = intval($request->get('order')[0]['column']);
+        $orderDirection = $request->get('order')[0]['dir'];
+        $columns = $request->get('columns');
+        $orderColumn = $columns[$orderColumnIndex]['data'];
+    
+        $logger->info("Request parameters: draw=$draw, start=$start, length=$length, search=$search, orderColumn=$orderColumn, orderDirection=$orderDirection");
+    
+        $queryBuilder = $orderRepository->createQueryBuilder('o')
+            ->leftJoin('o.user', 'u')
+            ->leftJoin('o.orderitem', 'oi')
+            ->setFirstResult($start)
+            ->setMaxResults($length);
+    
+        if (!empty($orderColumn)) {
+            if ($orderColumn == 'username' || $orderColumn == 'email') {
+                $queryBuilder->orderBy("u." . $orderColumn, $orderDirection);
+            } else {
+                $queryBuilder->orderBy("o." . $orderColumn, $orderDirection);
+            }
+        }
+    
+        if (!empty($search)) {
+            $queryBuilder->andWhere('u.username LIKE :search OR u.email LIKE :search OR o.adress LIKE :search OR o.phone LIKE :search')
+                ->setParameter('search', "%" . $search . "%");
+        }
+    
+        $totalRecords = $orderRepository->count([]);
+        $filteredRecords = count($queryBuilder->getQuery()->getResult());
+    
+        $queryBuilder->select('o', 'u', 'oi');
+        $results = $queryBuilder->getQuery()->getResult();
+        $formattedData = [];
+    
+        foreach ($results as $order) {
+            $total = 0;
+            foreach ($order->getOrderitem() as $item) {
+                $total += $item->getTotal();
+            }
+    
+            $formattedData[] = [
+                'id' => $order->getId(),
+                'username' => $order->getUser() ? $order->getUser()->getUsername() : '',
+                'email' => $order->getUser() ? $order->getUser()->getEmail() : '',
+                'adress' => $order->getAdress(),
+                'phone' => $order->getPhone(),
+                'date' => $order->getDate()->format('Y-m-d H:i:s'),
+                'total' => $total,
+            ];
+        }
+    
+        $logger->info('Response data prepared', ['formattedData' => $formattedData]);
+    
+        return new JsonResponse([
+            'draw' => $draw,
+            'recordsTotal' => $totalRecords,
+            'recordsFiltered' => $filteredRecords,
+            'data' => $formattedData,
+        ]);
+    }
+    
+
 
     #[Route('/user/orders/{id}/pdf', name: 'user_order_pdf')]
     public function downloadOrderPdf(Order $order): StreamedResponse
@@ -133,7 +206,7 @@ class OrderController extends AbstractController
             $total += $item->getTotal();
         }
 
-        $pdfContent = $this->pdfService->generatePdf('order/receipt.html.twig', [
+        $pdfContent = $this->rpdfService->generatePdf('order/receipt.html.twig', [
             'order' => $order,
             'total' => $total,
         ]);
@@ -147,66 +220,5 @@ class OrderController extends AbstractController
 
         return $response;
     }
-
-    // #[Route('/admin/orders/data', name: 'app_orders_data', methods: ['GET'])]
-    // public function getOrderData(Request $request, EntityManagerInterface $em): JsonResponse
-    // {
-    //         $draw = $request->query->get('draw');
-    //         $start = $request->query->get('start') ?? 0;
-    //         $length = $request->query->get('length') ?? 10;
-    //         $search = $request->query->all('search')['value']  ?? '';
-    //         $orderColumnIndex = $request->query->all('order')[0]['column'];
-    //         $orderColumn = $request->query->all('columns')[$orderColumnIndex]['data'];
-    //         $orderDir = $request->query->all('order')[0]['dir'] ?? 'asc';
-
-    //     $queryBuilder = $em->createQueryBuilder()
-    //         ->select('o.id', 'u.username AS username', 'u.email AS email', 'o.address', 'o.phone', 'o.date')
-    //         ->from(Order::class, 'o')
-    //         ->Join('o.user', 'u');
-
-    //     if (!empty($search)) {
-    //         $queryBuilder->andWhere('u.username LIKE :search OR u.email LIKE :search OR o.address LIKE :search OR o.phone LIKE :search')
-    //             ->setParameter('search', "%$search%");
-    //     }
-
-    //     if (!empty($orderColumn)) {
-    //         $queryBuilder->orderBy("o.$orderColumn", $orderDir);
-    //     }
-
-    //     $totalRecords = $em->createQueryBuilder()
-    //         ->select('COUNT(o.id)')
-    //         ->from(Order::class, 'o')
-    //         ->getQuery()
-    //         ->getSingleScalarResult();
-
-    //     $queryBuilder->setFirstResult($start)
-    //         ->setMaxResults($length);
-
-    //     $results = $queryBuilder->getQuery()->getResult();
-    //     $formattedData = [];
-    //     foreach ($results as $order) {
-    //         $orderEntity = $em->getRepository(Order::class)->find($order['id']);
-    //         $total = 0;
-    //         foreach ($orderEntity->getOrderItems() as $item) {
-    //             $total += $item->getTotal();
-    //         }
-    //         $formattedData[] = [
-    //             'id' => $order['id'],
-    //             'user_username' => $order['username'],
-    //             'user_email' => $order['email'],
-    //             'address' => $order['address'],
-    //             'phone' => $order['phone'],
-    //             'date' => $order['date']->format('Y-m-d H:i:s'),
-    //             'total' => $total . ' $',
-    //         ];
-    //     }
-
-    //     return new JsonResponse([
-    //         'draw' => $draw,
-    //         'recordsTotal' => $totalRecords,
-    //         'recordsFiltered' => $totalRecords,
-    //         'data' => $formattedData,
-    //     ]);
-    // }
 
 }

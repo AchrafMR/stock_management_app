@@ -14,4 +14,5 @@ import 'datatables.net-dt/css/dataTables.dataTables.css';
 $(document).ready(function() {
 
     $('#modelDataTable').DataTable();
+
 });

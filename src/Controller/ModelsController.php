@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Models;
 use App\Form\ModelsType;
-// use App\Repository\ModelsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,7 +52,6 @@ class ModelsController extends AbstractController
         $orderColumnIndex = $request->query->all('order')[0]['column'];
         $orderColumn = $request->query->all('columns')[$orderColumnIndex]['data'];
         $orderDir = $request->query->all('order')[0]['dir'] ?? 'asc';
-    
         $queryBuilder = $em->createQueryBuilder()
             ->select('m.id', 'm.name', 'm.path', 'm.icon', 'm.roles')
             ->from(Models::class, 'm');

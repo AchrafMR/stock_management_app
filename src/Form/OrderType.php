@@ -22,7 +22,7 @@ class OrderType extends AbstractType
                 'label' => 'Phone Number',
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Place Order',
+                'label' => 'Checkout',
             ])
         ;
     }

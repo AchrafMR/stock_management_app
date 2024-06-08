@@ -6,7 +6,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Twig\Environment;
 
-class PdfService
+class RpdfService
 {
     private $twig;
 
@@ -24,20 +24,9 @@ class PdfService
         $html = $this->twig->render($template, $data);
 
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper('A7', 'portrait');
         $dompdf->render();
 
         return $dompdf->output();
     }
 }
-
-
-
-
-
-
-
-
-
-
-   

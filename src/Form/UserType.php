@@ -34,15 +34,8 @@ class UserType extends AbstractType
                     return ['class' => 'form-check-input', 'id' => 'flexSwitchCheckChecked'];
                 },
                 'label_attr' => ['class' => 'form-check-label'],
-                'attr' => ['class' => 'form-check form-switch mb-2'], // Apply class to the outer container
+                'attr' => ['class' => 'form-check form-switch mb-2'], 
             ]);
-            // ->add('password')
-            // ->add('models', EntityType::class, [
-            //     'class' => Models::class,
-            //     'choice_label' => 'name',
-            //     'multiple' => true,
-            //     'attr' => ['class' => 'form-control'], // If you want to include this field
-            // ])
         ;
     }
 

@@ -90,7 +90,6 @@ class SettingController extends AbstractController
                 'id' => $user['id'],
                 'email' => $user['email'],
                 'roles' => $role,
-                // 'roles' => json_encode($user['roles']),
                 'username' => $user['username'],
                 'actions' => in_array('ROLE_ADMIN',$user['roles'])? '': $this->renderView('setting/_actions.html.twig', ['user' => $user ,]),
             ];

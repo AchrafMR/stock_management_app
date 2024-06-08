@@ -29,7 +29,7 @@ class ModelsType extends AbstractType
             // ->add('users', EntityType::class, [
             //     'class' => User::class,
             //     'choice_label' => 'id',
-            //     'multiple' => true, // Set to true to handle many-to-many relationship
+            //     'multiple' => true, 
             // ])
         ;
     }

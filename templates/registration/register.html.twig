@@ -53,7 +53,6 @@
                                     </a>
                                 </div>
                                 <!-- /Logo -->
-                                
                                 <p class="mb-4">Make your app management easy and fun!</p>
 
                                 {{ form_start(registrationForm, {'attr': {'id': 'formAuthentication', 'class': 'mb-3'}}) }}
@@ -84,14 +83,12 @@
                                         <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                     </div>
                                 </div>
-                                
                                 <div class="mb-3 form-check">
                                     {{ form_row(registrationForm.agreeTerms, {
                                         'attr': {'class': 'form-check-input'},
                                         'label': 'I agree to',
                                         'label_attr': {'class': 'form-check-label'}
                                     }) }}
-                                   
                                 </div>
                                 <button class="btn btn-primary d-grid w-100">Sign up</button>
                                 {{ form_end(registrationForm) }}

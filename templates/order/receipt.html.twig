@@ -7,42 +7,52 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background-color: #ffffff;
-            width: 100%;
+            width: 74mm;
+            height: 105mm;
             box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .container {
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-   
+            width: 64mm; /* Adjusting width to leave some margin */
+            padding: 2mm;
             border-radius: 5px;
+            box-sizing: border-box;
         }
         .header, .footer {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 2mm;
         }
         .header h1 {
             margin: 0;
+            font-size: 8pt;
         }
         .details {
-            margin-bottom: 20px;
+            margin-bottom: 2mm;
         }
         .details p {
-            margin: 5px 0;
+            margin: 1mm 0;
+            font-size: 6pt;
+        }
+        .items h2 {
+            font-size: 6pt;
+            margin: 1mm 0;
         }
         .item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 1mm 0;
             border-bottom: 1px solid #ddd;
+            font-size: 5pt;
         }
         .total {
             font-weight: bold;
-            text-align: right;
-            margin-top: 20px;
-            font-size: 1.2em;
+            text-align: center;
+            margin-top: 2mm;
+            font-size: 6pt;
         }
     </style>
 </head>
@@ -68,7 +78,7 @@
             {% endfor %}
         </div>
         <p class="total"><strong>Grand Total:</strong> {{ total }} $</p>
-        <div class="footer">
+        <div class="total">
             <p>Thank you for your purchase!</p>
         </div>
     </div>

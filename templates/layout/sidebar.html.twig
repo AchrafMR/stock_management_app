@@ -41,35 +41,4 @@
       {% endif %}
     {% endfor %}
     </ul>
-    {# <ul class="menu-inner py-1">
-      <!-- Dashboard -->
-      <li class="menu-item active">
-        <a href="{{path('home')}}"  class="menu-link {{app.current_route starts with 'home.' ? 'active' : ''}}">
-          <i class="menu-icon tf-icons bx bx-home-circle"></i>
-          <div data-i18n="Analytics">Dashboard</div>
-        </a>
-      </li>
-
-      <!-- Layouts -->
-      {% for model in models() %}
-      <li class="menu-item  active">
-        <a href="{{ path(model.path)}}" class="menu-link menu-toggle {{app.current_route starts with '{{ model.path }}.' ? 'active' : ''}}">
-        <i class="{{ model.icon }}"></i> &nbsp;&nbsp;
-        <div data-i18n="Account Settings">{{model.name}}</div>
-        </a>
-        <ul class="menu-sub active ">
-          {% for smodel in model.smodels %}
-          <li class="menu-item active">
-            <a href="{{ path(smodel.path)}}" class="menu-link">
-              <div data-i18n="" >
-               {{smodel.name}}
-              </div>
-            </a>
-          </li>
-          {% endfor %}
-
-        </ul>
-      </li>
-      {% endfor %}
-    </ul> #}
   </aside>

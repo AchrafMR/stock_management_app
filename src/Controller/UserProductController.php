@@ -83,15 +83,12 @@ class UserProductController extends AbstractController
     public function removeFromCart(int $id, SessionInterface $session): Response
     {
         $cart = $session->get('cart', []);
-    
         if (isset($cart[$id])) {
             unset($cart[$id]);
             $session->set('cart', $cart);
             $this->addFlash('success', 'Product removed successfully.');
         }
-    
         return $this->redirectToRoute('app_cart'); // Redirect back to the cart page
     }
-    
 
 }

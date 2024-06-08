@@ -31,14 +31,10 @@ class ProductType extends AbstractType
                 'label' => 'Description',
                 'attr' => ['class' => 'form-control', 'placeholder' => 'Enter description'],
             ])
-            // ->add('image', null, [
-            //     'label' => 'Image URL',
-            //     'attr' => ['class' => 'form-control', 'placeholder' => 'Enter image URL'],
-            // ])
             ->add('image', FileType::class, [
                 'label' => 'Product Image',
-                'mapped' => false, // Tells Symfony not to bind this field to any property
-                'required' => false, // Since it's an optional field
+                'mapped' => false,
+                'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('category', EntityType::class, [
