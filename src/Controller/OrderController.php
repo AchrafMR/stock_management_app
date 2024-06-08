@@ -172,8 +172,6 @@ class OrderController extends AbstractController
             'data' => $formattedData,
         ]);
     }
-    
-
 
     #[Route('/user/orders/{id}/pdf', name: 'user_order_pdf')]
     public function downloadOrderPdf(Order $order): StreamedResponse
@@ -197,7 +195,7 @@ class OrderController extends AbstractController
 
         return $response;
     }
-
+    
     #[Route('/user/orders/{id}/receipt', name: 'user_order_receipt')]
     public function downloadOrderReceipt(Order $order): StreamedResponse
     {
